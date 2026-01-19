@@ -119,6 +119,49 @@ for (let i = 0; i < toggleLink.length; i++) {
                     </div>
                   </div>
                 </div>`;
+          }else if(this.innerText == 'All Cuisine'){
+            box += `<div id="recipe-card" class="recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
+                  data-meal-id="${meal.id}">
+                  <div class="group rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
+                    <div class="relative h-48 overflow-hidden">
+                      <img
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        src="${meal.thumbnail}"
+                        alt="${meal.name}"
+                        loading="lazy"
+                      />
+                      <div class="absolute bottom-3 left-3 flex gap-2">
+                        <span class="px-2 py-1 bg-white/90 text-xs font-semibold rounded-full text-gray-700">
+                          ${meal.category}
+                        </span>
+                        <span class="px-2 py-1 bg-emerald-500 text-xs font-semibold rounded-full text-white">
+                          ${meal.area}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="p-4">
+                      <h3 class="text-base font-bold text-gray-900 mb-1 line-clamp-1">
+                        ${meal.name}
+                      </h3>
+
+                      <p class="text-xs text-gray-600 mb-3 line-clamp-2">
+                        Delicious recipe to try!
+                      </p>
+
+                      <div class="flex items-center justify-between text-xs">
+                        <span class="font-semibold text-gray-900">
+                          <i class="fa-solid fa-utensils text-emerald-600 mr-1"></i>
+                          ${meal.category}
+                        </span>
+                        <span class="font-semibold text-gray-500">
+                          <i class="fa-solid fa-globe text-blue-500 mr-1"></i>
+                          ${meal.area}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>`
           }
           this.classList.remove(
             "bg-gray-100",
@@ -221,7 +264,6 @@ function categoryCard() {
 categoryCard();
 
 // #####################  search  #####################
-
 searchInput.addEventListener("input", function () {
   let search = searchInput.value;
 
