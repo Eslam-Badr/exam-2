@@ -1,7 +1,16 @@
-// ###################  nav toggle  ####################
-
+// #######################  DOMs  ###########################
 const toggleLink = document.querySelectorAll(".nav-link");
 const mealSections = document.querySelectorAll(".app-section");
+const loadingOverlay = document.getElementById("app-loading-overlay");
+const areaContainer = document.getElementById("recipes-type");
+const searchInput = document.getElementById("search-input");
+const categoCards = document.querySelectorAll(".category-card");
+
+// #####################  Lists  ######################
+let areaList = [];
+let cardListDetails = [];
+
+// ###################  nav toggle  ####################
 
 for (let i = 0; i < toggleLink.length; i++) {
   toggleLink[i].addEventListener("click", (e) => {
@@ -21,9 +30,8 @@ for (let i = 0; i < toggleLink.length; i++) {
 }
 
 // #########################  Area  ########################
-const areaContainer = document.getElementById("recipes-type");
-let areaList = [];
 (async function () {
+  loadingOverlay.classList.remove("loading");
   let response = await fetch(
     "https://nutriplan-api.vercel.app/api/meals/areas"
   );
@@ -33,9 +41,9 @@ let areaList = [];
   areaList.push(...areaData.results);
 
   console.log(areaList);
+  loadingOverlay.classList.add("loading");
 
   function setAreas() {
-
     let box = "";
 
     for (let i = 0; i < areaList.length; i++) {
@@ -48,20 +56,28 @@ let areaList = [];
     }
     areaContainer.innerHTML += box;
 
-    const areaContainerBtn = areaContainer.querySelectorAll('button');
+    const areaContainerBtn = areaContainer.querySelectorAll("button");
 
-for (let i = 0; i < areaContainerBtn.length; i++) {
-  areaContainerBtn[i].addEventListener('click', function() {
-    let box = "";
+    for (let i = 0; i < areaContainerBtn.length; i++) {
+      areaContainerBtn[i].addEventListener("click", function () {
+        let box = "";
 
-    areaContainerBtn.forEach((btn) => btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700','text-white'));
-    areaContainerBtn.forEach((btn) => btn.classList.add('bg-gray-100', 'hover:bg-gray-200', 'text-gray-700'));
+        areaContainerBtn.forEach((btn) =>
+          btn.classList.remove(
+            "bg-emerald-600",
+            "hover:bg-emerald-700",
+            "text-white"
+          )
+        );
+        areaContainerBtn.forEach((btn) =>
+          btn.classList.add("bg-gray-100", "hover:bg-gray-200", "text-gray-700")
+        );
 
-    for (let j = 0; j < cardListDetails.length; j++) {
-      const meal = cardListDetails[j];
+        for (let j = 0; j < cardListDetails.length; j++) {
+          const meal = cardListDetails[j];
 
-      if (meal.area.toLowerCase() === this.innerText.toLowerCase()) {
-        box += `<div id="recipe-card" class="recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
+          if (meal.area.toLowerCase() === this.innerText.toLowerCase()) {
+            box += `<div id="recipe-card" class="recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
                   data-meal-id="${meal.id}">
                   <div class="group rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
                     <div class="relative h-48 overflow-hidden">
@@ -103,20 +119,26 @@ for (let i = 0; i < areaContainerBtn.length; i++) {
                     </div>
                   </div>
                 </div>`;
-      }
-      this.classList.remove('bg-gray-100', 'hover:bg-gray-200', 'text-gray-700')
-      this.classList.add('bg-emerald-600', 'hover:bg-emerald-700', 'text-white')
-
+          }
+          this.classList.remove(
+            "bg-gray-100",
+            "hover:bg-gray-200",
+            "text-gray-700"
+          );
+          this.classList.add(
+            "bg-emerald-600",
+            "hover:bg-emerald-700",
+            "text-white"
+          );
+        }
+        cardContainer.innerHTML = box;
+      });
     }
-    cardContainer.innerHTML = box;
-  });
-}
   }
   setAreas();
 })();
 
 // #########################  recipes card ######################
-let cardListDetails = [];
 
 async function recipesCard(foodType) {
   const response = await fetch(
@@ -186,8 +208,6 @@ function setCard() {
 
 // ##################  category  ##################
 function categoryCard() {
-  const categoCards = document.querySelectorAll(".category-card");
-
   recipesCard(categoCards[0].getAttribute("data-category"));
 
   for (let i = 0; i < categoCards.length; i++) {
@@ -202,7 +222,6 @@ categoryCard();
 
 // #####################  search  #####################
 
-let searchInput = document.getElementById("search-input");
 searchInput.addEventListener("input", function () {
   let search = searchInput.value;
 
@@ -259,6 +278,3 @@ searchInput.addEventListener("input", function () {
     cardContainer.innerHTML = box;
   }
 });
-
-
-
